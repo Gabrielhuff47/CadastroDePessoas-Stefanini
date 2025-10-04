@@ -10,6 +10,20 @@ public class PessoaDominio
     public string? Email { get; set; }
     public string? Naturalidade { get; set; }
     public string? Nacionalidade { get; set; }
-    public string UsuarioAtualizacao { get; set; }
-    public DateTime DataAtualizacao { get; set; }
+    public string? UsuarioAtualizacao { get; set; }
+    public DateTime? DataAtualizacao { get; set; }
+    public DateTime? DataCriacao { get; set; }
+
+    public PessoaDominio(int idPessoa, string nome, string cpf, DateTime dataNascimento, string? sexo, string? email, string? naturalidade, string? nacionalidade)
+    {
+        IdPessoa = idPessoa;
+        Nome = nome;
+        Cpf = cpf;
+        DataNascimento = dataNascimento;
+        Sexo = sexo;
+        Email = email;
+        Naturalidade = naturalidade;
+        Nacionalidade = nacionalidade;
+    }
+     public PessoaDominio() { } 
 }

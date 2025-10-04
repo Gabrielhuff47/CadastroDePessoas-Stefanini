@@ -10,7 +10,7 @@ public class PessoaMap : IEntityTypeConfiguration<PessoaDominio>
     {
         builder.ToTable("PESSOAS");
 
-        builder.HasKey(pessoa => pessoa.IdPessoa); 
+        builder.HasKey(pessoa => pessoa.IdPessoa);
 
         builder.Property(pessoa => pessoa.IdPessoa).IsRequired();
         builder.Property(pessoa => pessoa.Nome).IsRequired().HasMaxLength(200);
@@ -24,5 +24,6 @@ public class PessoaMap : IEntityTypeConfiguration<PessoaDominio>
 
         builder.Property(pessoa => pessoa.UsuarioAtualizacao).HasDefaultValue("SISTEMA");
         builder.Property(pessoa => pessoa.DataAtualizacao).HasDefaultValueSql("GETDATE()");
+        builder.Property(pessoa => pessoa.DataCriacao).HasDefaultValueSql("GETDATE()");
     }
 }

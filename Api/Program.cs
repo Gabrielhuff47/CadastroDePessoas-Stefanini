@@ -1,7 +1,27 @@
 using Api.Infraestrutura.Data.Context;
+using Api.Infraestrutura.Interfaces;
+using Api.Infraestrutura.Repositorio;
+using Api.Servico;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var MinhaPoliticaCORS = "_minhaPoliticaCORS"; 
+
+// Adicione o serviço de CORS antes de AddControllers()
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MinhaPoliticaCORS,
+                      policy =>
+                      {
+                          // 🚨 ATENÇÃO: Em PRODUÇÃO, substitua "*" pelo domínio real do seu frontend!
+                          // Em desenvolvimento, * permite qualquer origem.
+                          policy.AllowAnyOrigin() 
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
+
 
 // Add services to the container.
 
@@ -13,6 +33,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CadastroPessoasDBContexto>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IPessoaRepositorio, PessoaRepositorio>();
+builder.Services.AddScoped<PessoaServico>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,7 +46,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(MinhaPoliticaCORS); 
 app.UseAuthorization();
 
 app.MapControllers();
